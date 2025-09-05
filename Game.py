@@ -1,5 +1,8 @@
 import pygame, sys, random
-
+pygame.init()
+pygame.mixer.init()
+music = pygame.mixer.music.load('music.wav')
+pygame.mixer.music.play(-1)
 def ball_movement():
     """
     Handles the movement of the ball and collision detection with the player and screen boundaries.
@@ -12,7 +15,7 @@ def ball_movement():
 
     # Start the ball movement when the game begins
     # TODO Task 5 Create a Merge Conflict
-    speed = 5
+    speed = 10
     if start:
         ball_speed_x = speed * random.choice((1, -1))  # Randomize initial horizontal direction
         ball_speed_y = speed * random.choice((1, -1))  # Randomize initial vertical direction
@@ -25,6 +28,11 @@ def ball_movement():
             score += 1  # Increase player score
             ball_speed_y *= -1  # Reverse ball's vertical direction
             # TODO Task 6: Add sound effects HERE
+            pop_sound= pygame.mixer.Sound("Pop.wav")
+            pop_sound.play()
+            ball_speed_y -= 0.2
+            ball_speed_x -= 0.2
+
 
     # Ball collision with top boundary
     if ball.top <= 0:
@@ -102,26 +110,28 @@ while True:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                player_speed -= 6  # Move paddle left
+                player_speed -= 10  # Move paddle left
             if event.key == pygame.K_RIGHT:
-                player_speed += 6  # Move paddle right
+                player_speed += 10  # Move paddle right
             if event.key == pygame.K_SPACE:
                 start = True  # Start the ball movement
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
-                player_speed += 6  # Stop moving left
+                player_speed += 10  # Stop moving left
             if event.key == pygame.K_RIGHT:
-                player_speed -= 6  # Stop moving right
+                player_speed -= 10  # Stop moving right
 
     # Game Logic
     ball_movement()
     player_movement()
 
     # Visuals
+    background = pygame.image.load('elevator.jpg').convert()
     light_grey = pygame.Color('grey83')
     red = pygame.Color('red')
     green = pygame.Color('chartreuse2')
     screen.fill(bg_color)  # Clear screen with background color
+    screen.blit(background, (0, 0))
     pygame.draw.rect(screen, light_grey, player)  # Draw player paddle
     # TODO Task 3: Change the Ball Color
     pygame.draw.ellipse(screen, green, ball)  # Draw ball
