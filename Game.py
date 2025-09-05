@@ -7,7 +7,7 @@ def ball_movement():
     """
     Handles the movement of the ball and collision detection with the player and screen boundaries.
     """
-    global ball_speed_x, ball_speed_y, score, start
+    global ball_speed_x, ball_speed_y, score, start, high_score, game_over, last_score
 
     # Move the ball
     ball.x += ball_speed_x
@@ -26,6 +26,7 @@ def ball_movement():
         if abs(ball.bottom - player.top) < 10:  # Check if ball hits the top of the paddle
             # TODO Task 2: Fix score to increase by 1
             score += 1  # Increase player score
+            game_over = False
             ball_speed_y *= -1  # Reverse ball's vertical direction
             # TODO Task 6: Add sound effects HERE
             pop_sound= pygame.mixer.Sound("Pop.wav")
@@ -62,10 +63,14 @@ def restart():
     """
     Resets the ball and player scores to the initial state.
     """
-    global ball_speed_x, ball_speed_y, score
+    global ball_speed_x, ball_speed_y, score, high_score, game_over, last_score
+    last_score = score
+    if score > high_score: # Creates the high score system
+        high_score = score
     ball.center = (screen_width / 2, screen_height / 2)  # Reset ball position to center
     ball_speed_y, ball_speed_x = 0, 0  # Stop ball movement
     score = 0  # Reset player score
+    game_over = True
 
 # General setup
 pygame.mixer.pre_init(44100, -16, 1, 1024)
@@ -95,6 +100,8 @@ player_speed = 0
 
 # Score Text setup
 score = 0
+high_score = 0
+game_over = False
 basic_font = pygame.font.Font('freesansbold.ttf', 32)  # Font for displaying score
 
 start = False  # Indicates if the game has started
@@ -108,6 +115,12 @@ while True:
         if event.type == pygame.QUIT:  # Quit the game
             pygame.quit()
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if game_over:
+                if event.key == pygame.K_TAB: # Go back to the beginning without starting
+                    restart()
+                    game_over = False
+                    start = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 player_speed -= 10  # Move paddle left
@@ -137,6 +150,13 @@ while True:
     pygame.draw.ellipse(screen, green, ball)  # Draw ball
     player_text = basic_font.render(f'{score}', False, light_grey)  # Render player score
     screen.blit(player_text, (screen_width/2 - 15, 10))  # Display score on screen
+
+    if game_over: #creates game over screen
+        screen.fill(light_grey)
+        score_text = basic_font.render(f'Score: {last_score}', False, red)
+        screen.blit(score_text, (screen_width / 2.5 - 15, 155))  # Display score on screen
+        high_score_text = basic_font.render(f'High Score: {high_score}', False, red)
+        screen.blit(high_score_text, (screen_width / 3.1 - 15, 55))  # Display high score on screen
 
     # Update display
     pygame.display.flip()
