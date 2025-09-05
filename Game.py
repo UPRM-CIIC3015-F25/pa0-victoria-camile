@@ -1,5 +1,5 @@
 import pygame, sys, random
-
+pygame.init()
 pygame.mixer.init()
 music = pygame.mixer.music.load('music.wav')
 pygame.mixer.music.play(-1)
@@ -126,10 +126,12 @@ while True:
     player_movement()
 
     # Visuals
+    background = pygame.image.load('elevator.jpg').convert()
     light_grey = pygame.Color('grey83')
     red = pygame.Color('red')
     green = pygame.Color('chartreuse2')
     screen.fill(bg_color)  # Clear screen with background color
+    screen.blit(background, (0, 0))
     pygame.draw.rect(screen, light_grey, player)  # Draw player paddle
     # TODO Task 3: Change the Ball Color
     pygame.draw.ellipse(screen, green, ball)  # Draw ball
