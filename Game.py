@@ -30,6 +30,9 @@ def ball_movement():
             # TODO Task 6: Add sound effects HERE
             pop_sound= pygame.mixer.Sound("Pop.wav")
             pop_sound.play()
+            ball_speed_y -= 0.2
+            ball_speed_x -= 0.2
+
 
     # Ball collision with top boundary
     if ball.top <= 0:
@@ -107,16 +110,16 @@ while True:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                player_speed -= 6  # Move paddle left
+                player_speed -= 10  # Move paddle left
             if event.key == pygame.K_RIGHT:
-                player_speed += 6  # Move paddle right
+                player_speed += 10  # Move paddle right
             if event.key == pygame.K_SPACE:
                 start = True  # Start the ball movement
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
-                player_speed += 6  # Stop moving left
+                player_speed += 10  # Stop moving left
             if event.key == pygame.K_RIGHT:
-                player_speed -= 6  # Stop moving right
+                player_speed -= 10  # Stop moving right
 
     # Game Logic
     ball_movement()
