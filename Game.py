@@ -16,7 +16,7 @@ def ball_movement():
     # Start the ball movement when the game begins
     # TODO Task 5 Create a Merge Conflict
     speed = 10
-    if start:
+    if start and ball_speed_y== 0 and ball_speed_x == 0 and not game_over: #Only allows start if ball isint moving
         ball_speed_x = speed * random.choice((1, -1))  # Randomize initial horizontal direction
         ball_speed_y = speed * random.choice((1, -1))  # Randomize initial vertical direction
         start = False
@@ -126,7 +126,7 @@ while True:
                 player_speed -= 10  # Move paddle left
             if event.key == pygame.K_RIGHT:
                 player_speed += 10  # Move paddle right
-            if event.key == pygame.K_SPACE and not game_over:
+            if event.key == pygame.K_SPACE:
                 start = True  # Start the ball movement
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
@@ -141,8 +141,10 @@ while True:
     # Visuals
     background = pygame.image.load('elevator.jpg').convert()
     light_grey = pygame.Color('grey83')
-    red = pygame.Color('red')
     green = pygame.Color('chartreuse2')
+    cream = pygame.Color('bisque3')
+    black = pygame.Color('gray0')
+
     screen.fill(bg_color)  # Clear screen with background color
     screen.blit(background, (0, 0))
     pygame.draw.rect(screen, light_grey, player)  # Draw player paddle
@@ -152,13 +154,13 @@ while True:
     screen.blit(player_text, (screen_width/2 - 15, 10))  # Display score on screen
 
     if game_over: #creates game over screen
-        screen.fill(light_grey)
-        score_text = basic_font.render(f'Score: {last_score}', True, red)
+        screen.fill(cream)
+        score_text = basic_font.render(f'Score: {last_score}', True, black)
         screen.blit(score_text, (screen_width / 2.5 - 15, 155))  # Display score on screen
-        high_score_text = basic_font.render(f'High Score: {high_score}', True, red)
+        high_score_text = basic_font.render(f'High Score: {high_score}', True, black)
         screen.blit(high_score_text, (screen_width / 3.1 - 15, 55))  # Display high score on screen
-        continue_text = basic_font.render("Press E to continue", True, red)
-        screen.blit(continue_text, (screen_width / 4.1 - 15, 250))  # Display high score on screen
+        continue_text = basic_font.render("Press E to continue", True, black)
+        screen.blit(continue_text, (screen_width / 4.1 - 15, 440))  # Display high score on screen
 
     # Update display
     pygame.display.flip()
