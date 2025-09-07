@@ -117,7 +117,7 @@ while True:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if game_over:
-                if event.key == pygame.K_TAB: # Go back to the beginning without starting
+                if event.key == pygame.K_e: # Go back to the beginning without starting
                     restart()
                     game_over = False
                     start = False
@@ -126,7 +126,7 @@ while True:
                 player_speed -= 10  # Move paddle left
             if event.key == pygame.K_RIGHT:
                 player_speed += 10  # Move paddle right
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE and not game_over:
                 start = True  # Start the ball movement
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
@@ -153,10 +153,12 @@ while True:
 
     if game_over: #creates game over screen
         screen.fill(light_grey)
-        score_text = basic_font.render(f'Score: {last_score}', False, red)
+        score_text = basic_font.render(f'Score: {last_score}', True, red)
         screen.blit(score_text, (screen_width / 2.5 - 15, 155))  # Display score on screen
-        high_score_text = basic_font.render(f'High Score: {high_score}', False, red)
+        high_score_text = basic_font.render(f'High Score: {high_score}', True, red)
         screen.blit(high_score_text, (screen_width / 3.1 - 15, 55))  # Display high score on screen
+        continue_text = basic_font.render("Press E to continue", True, red)
+        screen.blit(continue_text, (screen_width / 4.1 - 15, 250))  # Display high score on screen
 
     # Update display
     pygame.display.flip()
